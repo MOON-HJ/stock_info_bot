@@ -25,5 +25,3 @@ def get_stocks_info():
 def get_stock_info(company_name):
     now_price = get_price(company[company_name])
     return now_price
-
-print(get_stock_info('삼성전자우'))
