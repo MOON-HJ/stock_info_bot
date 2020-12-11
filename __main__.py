@@ -1,5 +1,6 @@
 import telegram
 import json
+import get_stock_price
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
 
 token = ""
@@ -20,7 +21,8 @@ def start(update, context):
     context.bot.send_message(chat_id=update.effective_chat.id, text="주식 정보 노예를 시작합니다")
 
 def echo(update, context): 
-    text = "너 지금 \'"+update.message.text+"\'이라 했니?" 
+    text = "현재 " + update.message.text +"의 가격은 \'"+get_stock_price.get_stock_info(update.message.text)+"\'입니다." 
+    
     context.bot.send_message(chat_id=update.effective_chat.id, text=text)
 
 start_handler = CommandHandler('start', start)
