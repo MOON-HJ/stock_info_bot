@@ -1,5 +1,6 @@
 import telegram
 import json
+from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
 
 token = ""
 master = ""
@@ -12,12 +13,21 @@ with open("config/info.config") as config:
 print(token)
 print(master)
 
-bot = telegram.Bot(token)
-updates = bot.getUpdates()
+updater = Updater(token=token)#, use_context=True)
+dispatcher = updater.dispatcher
 
-chat_id = updates[-1].message.chat_id
+def start(update, context):
+    context.bot.send_message(chat_id=update.effective_chat.id, text="주식 정보 노예를 시작합니다")
+
+def echo(update, context): 
+    text = "너 지금 \'"+update.message.text+"\'이라 했니?" 
+    context.bot.send_message(chat_id=update.effective_chat.id, text=text)
+
+start_handler = CommandHandler('start', start)
+dispatcher.add_handler(start_handler)
+echo_handler = MessageHandler(Filters.text & (~Filters.command), echo) 
+dispatcher.add_handler(echo_handler) 
 
 
-
-
-bot.sendMessage(chat_id=chat_id, text="안녕하세요. 저는 봇입니다.")
+updater.start_polling()
+updater.idle()
