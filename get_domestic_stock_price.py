@@ -14,7 +14,7 @@ def get_price(company_code):
     now_price = blind.text
     return now_price
 
-company = {"삼성전자우":"005935"}   
+company = {"삼성전자우":"005935", "네이버":"035420"}   
 
 def get_stocks_info():
     for item, code in company.items():

@@ -22,13 +22,20 @@ def start(update, context):
     text="주식 정보 노예를 시작합니다")
 
 def search(update, context): 
-    text = "현재 " + update.message.text +"의 가격은 \'"
-    + get_domestic_stock_price.get_stock_info(update.message.text)+"\'입니다." 
-    print(update)
+    text = "현재 " + update.message.text +"의 가격은 \'" + get_domestic_stock_price.get_stock_info(update.message.text)+"원' 입니다." 
+    print(text)
     context.bot.send_message(chat_id=update.effective_chat.id, text=text)
+
+def domestic_stock(update, context):
+    text = "원하는 주식 정보를 선택하여주세요"
+    context.bot.send_message(chat_id=update.effective_chat.id, text=text, reply_markup= {"keyboard": [["삼성전자우"], ["네이버"]]})
+
+    context.bot.send_message(chat_id=update.effective_chat.id, text=text)
+
 
 dispatcher.add_handler(CommandHandler('start', start))
 dispatcher.add_handler(MessageHandler(Filters.text & (~Filters.command), search) ) 
+dispatcher.add_handler(CommandHandler('domestic_stock', domestic_stock) ) 
 
 updater.start_polling()
 updater.idle()
